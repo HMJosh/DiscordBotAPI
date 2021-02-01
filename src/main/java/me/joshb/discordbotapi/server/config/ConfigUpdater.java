@@ -12,25 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * A class to update/add new sections/keys to your config while keeping your current values and keeping your comments
- * Algorithm:
- * Read the new file and scan for comments and ignored sections, if ignored section is found it is treated as a comment.
- * Read and write each line of the new config, if the old config has value for the given key it writes that value in the new config.
- * If a key has an attached comment above it, it is written first.
- * @author tchristofferson
- * @Editor Joshb_ for UTF_8 Support
- */
 public class ConfigUpdater {
 
-    /**
-     * Update a yaml file from a resource inside your plugin jar
-     * @param plugin You plugin
-     * @param resourceName The yaml file name to update from, typically Config.yml
-     * @param toUpdate The yaml file to update
-     * @param ignoredSections List of sections to ignore and copy from the current config
-     * @throws IOException If an IOException occurs
-     */
     public static void update(Plugin plugin, String resourceName, File toUpdate, List<String> ignoredSections) throws IOException {
         BufferedReader newReader = new BufferedReader(new InputStreamReader(plugin.getResource(resourceName), StandardCharsets.UTF_8));
         List<String> newLines = newReader.lines().collect(Collectors.toList());
@@ -147,12 +130,15 @@ public class ConfigUpdater {
         for (int i = 0; i < list.size(); i++) {
             Object o = list.get(i);
 
-            if (o instanceof String || o instanceof Character) {
-                builder.append(prefixSpaces).append("- '").append(o).append("'");
+            if (o instanceof String) {
+                String s = String.valueOf(o);
+                builder.append(prefixSpaces).append("  - \"").append(s).append("\"");
+            } else if(o instanceof Character){
+                builder.append(prefixSpaces).append("  - '").append(o).append("'");
             } else if (o instanceof List) {
-                builder.append(prefixSpaces).append("- ").append(yaml.dump(o));
+                builder.append(prefixSpaces).append("  - ").append(yaml.dump(o));
             } else {
-                builder.append(prefixSpaces).append("- ").append(o);
+                builder.append(prefixSpaces).append("  - ").append(o);
             }
 
             if (i != list.size()) {

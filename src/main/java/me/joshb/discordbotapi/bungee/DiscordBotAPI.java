@@ -21,7 +21,7 @@ public class DiscordBotAPI extends Plugin {
 
     public DiscordMessageReceived discordMessageReceived;
 
-    public void onEnable(){
+    public void onLoad(){
         plugin = this;
 
         Config.getInstance().initialize();
@@ -48,6 +48,10 @@ public class DiscordBotAPI extends Plugin {
         } catch (LoginException e) {
             getLogger().severe("Plugin Disabled. The bot token is invalid. Reason: " + e.getMessage());
         }
+    }
+
+    public void onEnable(){
+
         discordMessageReceived = new DiscordMessageReceived();
         registerEvent(this, discordMessageReceived);
     }

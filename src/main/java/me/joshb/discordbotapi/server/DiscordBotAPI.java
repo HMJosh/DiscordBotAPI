@@ -1,9 +1,9 @@
 package me.joshb.discordbotapi.server;
 
+import me.joshb.discordbotapi.server.command.CommandManager;
 import me.joshb.discordbotapi.server.config.Config;
 import me.joshb.discordbotapi.server.config.LinkedAccounts;
 import me.joshb.discordbotapi.server.config.Messages;
-import me.joshb.discordbotapi.server.command.CommandManager;
 import me.joshb.discordbotapi.server.listener.DiscordMessageReceived;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -22,7 +22,7 @@ public class DiscordBotAPI extends JavaPlugin {
 
     public DiscordMessageReceived discordMessageReceived;
 
-    public void onEnable() {
+    public void onEnable(){
         plugin = this;
 
         Config.getInstance().initialize();
@@ -30,7 +30,9 @@ public class DiscordBotAPI extends JavaPlugin {
         LinkedAccounts.getInstance().initialize();
 
         CommandManager cm = new CommandManager();
+        Bukkit.broadcastMessage(cm.toString());
         cm.initializeSubCommands();
+
         getCommand("discord").setExecutor(cm);
 
         if (Config.getInstance().getConfig().getString("Bot.Token").equals("token_here")) {
