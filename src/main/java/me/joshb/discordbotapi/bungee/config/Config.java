@@ -49,6 +49,10 @@ public class Config {
         } catch (IOException e){
             e.printStackTrace();
         }
+        if(!config.contains("Account-Manager")){
+            config.set("Account-Manager", true);
+            save();
+        }
     }
     public void save() {
         try {

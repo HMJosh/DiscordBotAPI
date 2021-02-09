@@ -1,3 +1,5 @@
 Bot:
   Token: "token_here"
   Command-Prefix: "!ticketgui"
+#Enabling/Disabling this setting will determine if /dm link and /dm unlink commands will be registered.
+Account-Manager: true

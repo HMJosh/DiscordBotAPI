@@ -3,6 +3,7 @@ package me.joshb.discordbotapi.bungee.command;
 import me.joshb.discordbotapi.Permission;
 import me.joshb.discordbotapi.bungee.DiscordBotAPI;
 import me.joshb.discordbotapi.bungee.assets.Assets;
+import me.joshb.discordbotapi.bungee.config.Config;
 import net.dv8tion.jda.api.entities.User;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -19,8 +20,10 @@ public class CommandManager extends Command {
     private List<DiscordCommand> commands = new ArrayList<>();
 
     public void initializeSubCommands(){
-        commands.add(new CommandLink());
-        commands.add(new CommandUnlink());
+        if(Config.getInstance().getConfig().getBoolean("Account-Manager")) {
+            commands.add(new CommandLink());
+            commands.add(new CommandUnlink());
+        }
     }
 
     public void execute(CommandSender sender, String[] args) {

@@ -3,6 +3,7 @@ package me.joshb.discordbotapi.server.command;
 import me.joshb.discordbotapi.server.DiscordBotAPI;
 import me.joshb.discordbotapi.server.assets.Assets;
 import me.joshb.discordbotapi.Permission;
+import me.joshb.discordbotapi.server.config.Config;
 import net.dv8tion.jda.api.entities.User;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,8 +19,10 @@ public class CommandManager implements CommandExecutor {
     private List<DiscordCommand> commands = new ArrayList<>();
 
     public void initializeSubCommands(){
-        commands.add(new CommandLink());
-        commands.add(new CommandUnlink());
+        if(Config.getInstance().getConfig().getBoolean("Account-Manager")){
+            commands.add(new CommandLink());
+            commands.add(new CommandUnlink());
+        }
     }
 
     @Override
